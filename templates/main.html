@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вкладки и сообщение</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Стили для вкладок */
+        .tabs {
+            display: flex;
+            list-style: none;
+            padding: 20px;
+            background: #f0f0f0;
+            margin: 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tabs li a {
+            padding: 12px 25px;
+            background: white;
+            border-radius: 5px 5px 0 0;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #ddd;
+            display: block;
+        }
+
+        .tabs li a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .tabs li a:active {
+            transform: translateY(0);
+            background: #e0e0e0;
+        }
+
+        /* Стили для блока сообщения */
+        .message {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            border-top: 2px solid #eee;
+            margin: 50px 20px 20px;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .message-content {
+            flex-grow: 1;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .date {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .user-link {
+            color: #2a5db0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .chat-title {
+            color: #e74c3c;
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .message-text {
+            color: #333;
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Верхние вкладки -->
+    <ul class="tabs">
+        <li><a href={{ chat1URL }}>{{Chat1Name}}</a></li>
+        <li><a href={{chat2URL}}>{{Chat2Name}}</a></li>
+        <li><a href={{chat3URL}}>{{Chat3Name}}</a></li>
+        <li><a href={{chat4URL}}>{{Chat4Name}}</a></li>
+        <li><a href={{chat5URL}}>{{Chat5Name}}</a></li>
+        <li><a href={{chat6URL}}>{{Chat6Name}}</a></li>
+        <li><a href={{chat7URL}}>{{Chat7Name}}</a></li>
+        <li><a href={{chat8URL}}>{{Chat8Name}}</a></li>
+        <li><a href={{chat9URL}}>{{Chat9Name}}</a></li>
+        <li><a href={{chat10URL}}>{{Chat10Name}}</a></li>
+    </ul>
+
+    <!-- Блок сообщения -->
+    <div class="message">
+        <img src="/../chatAvatars/tt.jpg" alt="Аватар" class="avatar">
+        <div class="message-content">
+            <div class="message-header">
+                <span class="date">5 октября 2023, 14:30</span>
+                <a href="https://example.com/user123" class="user-link">@alex_petrov</a>
+                <h3 class="chat-title">Чат разработчиков</h3>
+            </div>
+            <p class="message-text">
+                Привет! Напоминаю, что завтра собрание в 10:00. Не забудьте подготовить отчеты по проекту. Давайте обсудим новые идеи!
+            </p>
+        </div>
+    </div>
+        {{msg1|safe}}
+        {{msg2}}
+        {{msg3}}
+        {{msg4}}
+        {{msg5}}
+        {{msg6}}
+        {{msg7}}
+        {{msg8}}
+        {{msg9}}
+        {{msg10}}
+        {{msg11}}
+        {{msg12}}
+        {{msg13}}
+        {{msg14}}
+        {{msg115}}
+
+
+
+    <script>
+        // Добавляем эффект нажатия для вкладок
+        document.querySelectorAll('.tabs a').forEach(link => {
+            link.addEventListener('mousedown', () => {
+                link.style.transform = 'translateY(2px)';
+            });
+
+            link.addEventListener('mouseup', () => {
+                link.style.transform = 'translateY(-3px)';
+            });
+
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>
