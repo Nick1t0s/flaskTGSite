@@ -133,29 +133,29 @@ def test(client: Client, message: Message):
 
     text = message.text
     entities_info = []
+    if not message.entities is None:
+        for entity in message.entities:
+            # print(str(entity.type))
+            start = entity.offset
+            end = start + entity.length
+            entity_text = text[start:end]
+            if str(entity.type) == "MessageEntityType.TEXT_LINK":
+                url = entity.url
+            elif str(entity.type) == "MessageEntityType.MENTION":
+                url = f"https://telegram.me/{entity_text[1:]}"
+            else:
+                continue
 
-    for entity in message.entities:
-        # print(str(entity.type))
-        start = entity.offset
-        end = start + entity.length
-        entity_text = text[start:end]
-        if str(entity.type) == "MessageEntityType.TEXT_LINK":
-            url = entity.url
-        elif str(entity.type) == "MessageEntityType.MENTION":
-            url = f"https://telegram.me/{entity_text[1:]}"
-        else:
-            continue
-
-        # Извлекаем текст, соответствующий сущности
+            # Извлекаем текст, соответствующий сущности
 
 
-        # Формируем информацию о сущности
-        info = {
-            "text": entity_text,
-            "url": url,
-        }
+            # Формируем информацию о сущности
+            info = {
+                "text": entity_text,
+                "url": url,
+            }
 
-        entities_info.append(info)
+            entities_info.append(info)
 
 
 
@@ -177,7 +177,11 @@ def startBFL():
     app.run(host="0.0.0.0", port=80)
 
 def startBot():
-    bot.run()
+    while True:
+        try:
+            bot.run()
+        except:
+            pass
 flaskThread = threading.Thread(target=startBFL)
 flaskThread.start()
 
