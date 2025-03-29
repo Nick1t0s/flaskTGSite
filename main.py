@@ -11,8 +11,12 @@ import psycopg2
 from pyrogram import Client, filters
 from pyrogram.types import Message, MessageEntity
 
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
 dirPath = os.path.dirname(os.path.realpath(__file__))
-app = Flask("tgResender")
+app = Flask("tgResender", template_folder=f"{dirPath}/templates")
 @app.route('/')
 def main():
 
