@@ -23,8 +23,6 @@ def main():
     args = request.args.to_dict()
     pageNow = int(args.get("page", 1))
 
-    with open(f"{dirPath}/templates/page.html", encoding="UTF-8") as f:
-        page = f.read()
 
     with psycopg2.connect(user=user, password=password, host=host, port=port, database=database) as conn:
         cursor = conn.cursor()
