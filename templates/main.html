@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-<!--    <meta http-equiv="refresh" content="3">-->
+    <meta http-equiv="refresh" content="3">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вкладки и сообщение</title>
     <style>
@@ -210,10 +210,11 @@
         <a href=?chat={{chatID}}&page={{prevpage}} class="btn nav-btn {{prevIsdisabled}}">‹ Назад</a>
 
         <!-- Кнопки страниц -->
-        <a href=?chat={{chatID}}&page={{b1}} class="btn page-btn {{active1}}">{{b1}}</a>
-        <a href=?chat={{chatID}}&page={{b2}} class="btn page-btn {{active2}}">{{b2}}</a>
-        <a href=?chat={{chatID}}&page={{b3}} class="btn page-btn {{active3}}">{{b3}}</a>
-        <a href=?chat={{chatID}}&page={{maxNum}} class="btn page-btn">...{{maxNum}}</a>
+        {{buttonPage1|safe}}
+        {{buttonPage2|safe}}
+        {{buttonPage3|safe}}
+        {{buttonPage4|safe}}
+
 
         <!-- Кнопки навигации -->
         <a href=?chat={{chatID}}&page={{nextpage}} class="btn nav-btn {{nextIsdisabled}}">Вперед ›</a>

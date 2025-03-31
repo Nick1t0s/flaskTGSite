@@ -22,9 +22,10 @@ def main():
 
     args = request.args.to_dict()
     pageNow = int(args.get("page", 1))
-    with open(f"{dirPath}/templates/message.html", encoding="UTF-8") as f:
-        file = f.read()
-        # print(file)
+
+    with open(f"{dirPath}/templates/page.html", encoding="UTF-8") as f:
+        page = f.read()
+
     with psycopg2.connect(user=user, password=password, host=host, port=port, database=database) as conn:
         cursor = conn.cursor()
         cursor.execute(f"SELECT * FROM messages WHERE chatid = '{args.get('chat', chats[0])}' ORDER BY dt DESC LIMIT 30 OFFSET {(pageNow-1)*30}")
@@ -55,10 +56,69 @@ def main():
                                       month=date.month,
                                       year=date.year,
                                       time=date.strftime("%H:%M"))
+        print(collPages)
+        if collPages == 1:
+            page1 = render_template("page.html",
+                                    pageN="1",
+                                    chatID = args.get('chat', chats[0]),
+                                    active = "active")
+            print(page1)
+            page2 = ""
+            page3 = ""
+            page4 = ""
+
+        elif collPages == 2:
+            page1 = render_template("page.html",
+                                    pageN="1",
+                                    chatID=args.get('chat', chats[0]),
+                                    active="active" if pageNow==1 else "")
+            page2 = render_template("page.html",
+                                    pageN="2",
+                                    chatID=args.get('chat', chats[0]),
+                                    active="active" if pageNow==2 else "")
+            page3 = ""
+            page4 = ""
+
+        elif collPages == 3:
+            page1 = render_template("page.html",
+                                    pageN="1",
+                                    chatID=args.get('chat', chats[0]),
+                                    active="active" if pageNow==1 else "")
+            page2 = render_template("page.html",
+                                    pageN="2",
+                                    chatID=args.get('chat', chats[0]),
+                                    active="active" if pageNow==2 else "")
+            page3 = render_template("page.html",
+                                    paheN="3",
+                                    pageN=args.get('chat', chats[0]),
+                                    active="active" if pageNow==3 else "")
+            page4 = ""
+
+        else:
+            page1 = render_template("page.html",
+                                    pageN=f"{pageNow-1}" if pageNow!=1 else f"{pageNow}",
+                                    chatID=args.get('chat', chats[0]),
+                                    active="active" if pageNow==1 else "")
+            page2 = render_template("page.html",
+                                    pageN=f"{pageNow - int(pageNow == collPages)}" if pageNow!=1 else f"{pageNow+1}",
+                                    chatID=args.get('chat', chats[0]),
+                                    active="active" if pageNow!=1 and pageNow!=collPages else "")
+            page3 = render_template("page.html",
+                                    pageN=f"{pageNow+1 - int(pageNow == collPages)}" if pageNow!=1 else f"{pageNow+2}",
+                                    chatID=args.get('chat', chats[0]),
+                                    active="active" if pageNow==collPages else "")
+            if pageNow!=collPages:
+                page4 = render_template("page.html",
+                                        pageN=f"{collPages}",
+                                        chatID=args.get('chat', chats[0]),
+                                        active="")
+            else:
+                page4 = ""
+
+
         for j in ents:
             messages[i] = messages[i].replace(j["text"], f"<a href = \"{j['url']}\"  target=\"_blank\">{j['text']}</a>")
 
-    print(f"{pageNow-1}" if pageNow-1!=0 else f"{pageNow}")
     return render_template("main.html",
                            chat1URL=f"?chat={chats[0]}", Chat1Name=names[0],
                            chat2URL=f"?chat={chats[1]}", Chat2Name=names[1],
@@ -72,18 +132,14 @@ def main():
                            chat10URL=f"?chat={chats[9]}", Chat10Name=names[9],
                            prevpage=f"{pageNow - 1}",
                            nextpage=f"{pageNow + 1}",
-                           b1 = f"{pageNow-1 - int(pageNow == collPages)}" if pageNow!=1 or pageNow == collPages else f"{pageNow}",
-                           b2 = f"{pageNow - int(pageNow == collPages)}" if pageNow!=1 or pageNow == collPages else f"{pageNow+1}",
-                           b3 = f"{pageNow+1 - int(pageNow == collPages)}" if pageNow!=1 or pageNow == collPages else f"{pageNow+2}",
-                           maxNum = f"{collPages}",
-                           prevIsdisabled = "disabled" if pageNow-1 <= 0 else "",
-                           nextIsdisabled = "disabled" if pageNow+1 > collPages else "",
+                           buttonPage1 = page1,
+                           buttonPage2 = page2,
+                           buttonPage3 = page3,
+                           buttonPage4 = page4,
+                           chatID=args.get('chat', chats[0]),
 
-                           active1 = "active" if pageNow==1 else "",
-                           active2 = "active" if pageNow!=1 and pageNow!=collPages else "",
-                           active3 = "active" if pageNow==collPages else "",
-
-                           chatID = args.get('chat', chats[0]),
+                           prevIsdisabled = "disabled" if pageNow==1 else "",
+                           nextIsdisabled = "disabled" if pageNow==collPages else "",
 
 
                            msg1 = messages[0],
