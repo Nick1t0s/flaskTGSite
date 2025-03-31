@@ -54,13 +54,11 @@ def main():
                                       month=date.month,
                                       year=date.year,
                                       time=date.strftime("%H:%M"))
-        print(collPages)
         if collPages == 1:
             page1 = render_template("page.html",
                                     pageN="1",
                                     chatID = args.get('chat', chats[0]),
                                     active = "active")
-            print(page1)
             page2 = ""
             page3 = ""
             page4 = ""
