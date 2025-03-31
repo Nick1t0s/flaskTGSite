@@ -21,17 +21,21 @@ app = Flask("tgResender", template_folder=f"{dirPath}/templates")
 def main():
 
     args = request.args.to_dict()
-
+    pageNow = int(args.get("page", 1))
     with open(f"{dirPath}/templates/message.html", encoding="UTF-8") as f:
         file = f.read()
         # print(file)
     with psycopg2.connect(user=user, password=password, host=host, port=port, database=database) as conn:
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM messages WHERE chatid = '{args.get('chat', chats[0])}' ORDER BY dt DESC LIMIT 15")
+        cursor.execute(f"SELECT * FROM messages WHERE chatid = '{args.get('chat', chats[0])}' ORDER BY dt DESC LIMIT 30 OFFSET {(pageNow-1)*30}")
         res = cursor.fetchall()
+        cursor.execute(f"SELECT count(*) FROM messages WHERE chatid = '{args.get('chat', chats[0])}'")
+        count = cursor.fetchone()[0]
+
+    collPages = count//30 + 1 if count%30!=0 else 0
         # print(res)
 
-    messages = [""]*15
+    messages = [""]*30
 
     for i, message in enumerate(res):
         chatId = message[0]
@@ -54,7 +58,7 @@ def main():
         for j in ents:
             messages[i] = messages[i].replace(j["text"], f"<a href = \"{j['url']}\"  target=\"_blank\">{j['text']}</a>")
 
-
+    print(f"{pageNow-1}" if pageNow-1!=0 else f"{pageNow}")
     return render_template("main.html",
                            chat1URL=f"?chat={chats[0]}", Chat1Name=names[0],
                            chat2URL=f"?chat={chats[1]}", Chat2Name=names[1],
@@ -66,6 +70,22 @@ def main():
                            chat8URL=f"?chat={chats[7]}", Chat8Name=names[7],
                            chat9URL=f"?chat={chats[8]}", Chat9Name=names[8],
                            chat10URL=f"?chat={chats[9]}", Chat10Name=names[9],
+                           prevpage=f"{pageNow - 1}",
+                           nextpage=f"{pageNow + 1}",
+                           b1 = f"{pageNow-1 - int(pageNow == collPages)}" if pageNow!=1 or pageNow == collPages else f"{pageNow}",
+                           b2 = f"{pageNow - int(pageNow == collPages)}" if pageNow!=1 or pageNow == collPages else f"{pageNow+1}",
+                           b3 = f"{pageNow+1 - int(pageNow == collPages)}" if pageNow!=1 or pageNow == collPages else f"{pageNow+2}",
+                           maxNum = f"{collPages}",
+                           prevIsdisabled = "disabled" if pageNow-1 <= 0 else "",
+                           nextIsdisabled = "disabled" if pageNow+1 > collPages else "",
+
+                           active1 = "active" if pageNow==1 else "",
+                           active2 = "active" if pageNow!=1 and pageNow!=collPages else "",
+                           active3 = "active" if pageNow==collPages else "",
+
+                           chatID = args.get('chat', chats[0]),
+
+
                            msg1 = messages[0],
                            msg2 = messages[1],
                            msg3 = messages[2],
@@ -80,7 +100,22 @@ def main():
                            msg12 = messages[11],
                            msg13 = messages[12],
                            msg14 = messages[13],
-                           msg15 = messages[14],)
+                           msg15 = messages[14],
+                           msg16=messages[15],
+                           msg17=messages[16],
+                           msg18=messages[17],
+                           msg19=messages[18],
+                           msg20=messages[19],
+                           msg21=messages[20],
+                           msg22=messages[21],
+                           msg23=messages[22],
+                           msg24=messages[23],
+                           msg25=messages[24],
+                           msg26=messages[25],
+                           msg27=messages[26],
+                           msg28=messages[27],
+                           msg29=messages[28],
+                           msg30=messages[29])
 
 
 

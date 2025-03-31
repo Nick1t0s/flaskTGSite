@@ -2,6 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+<!--    <meta http-equiv="refresh" content="3">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вкладки и сообщение</title>
     <style>
         body {
@@ -86,6 +88,70 @@
             margin: 0;
             font-size: 1.1em;
         }
+            .pagination-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .nav-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .nav-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .page-btn {
+            min-width: 40px;
+        }
+
+        .page-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .page-btn:hover:not(.active) {
+            background-color: #ddd;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+        a.disabled {
+            pointer-events: none;
+            color: #ccc;
+        }
 
         .message-text {
             color: #333;
@@ -97,7 +163,7 @@
 <body>
     <!-- Верхние вкладки -->
     <ul class="tabs">
-        <li><a href={{ chat1URL }}>{{Chat1Name}}</a></li>
+        <li><a href={{chat1URL}}>{{Chat1Name}}</a></li>
         <li><a href={{chat2URL}}>{{Chat2Name}}</a></li>
         <li><a href={{chat3URL}}>{{Chat3Name}}</a></li>
         <li><a href={{chat4URL}}>{{Chat4Name}}</a></li>
@@ -124,6 +190,34 @@
     {{msg13|safe}}
     {{msg14|safe}}
     {{msg15|safe}}
+    {{msg16|safe}}
+    {{msg17|safe}}
+    {{msg18|safe}}
+    {{msg19|safe}}
+    {{msg20|safe}}
+    {{msg21|safe}}
+    {{msg22|safe}}
+    {{msg23|safe}}
+    {{msg24|safe}}
+    {{msg25|safe}}
+    {{msg26|safe}}
+    {{msg27|safe}}
+    {{msg28|safe}}
+    {{msg29|safe}}
+    {{msg30|safe}}
+    <div class="pagination-container">
+        <!-- Кнопки навигации -->
+        <a href=?chat={{chatID}}&page={{prevpage}} class="btn nav-btn {{prevIsdisabled}}">‹ Назад</a>
+
+        <!-- Кнопки страниц -->
+        <a href=?chat={{chatID}}&page={{b1}} class="btn page-btn {{active1}}">{{b1}}</a>
+        <a href=?chat={{chatID}}&page={{b2}} class="btn page-btn {{active2}}">{{b2}}</a>
+        <a href=?chat={{chatID}}&page={{b3}} class="btn page-btn {{active3}}">{{b3}}</a>
+        <a href=?chat={{chatID}}&page={{maxNum}} class="btn page-btn">...{{maxNum}}</a>
+
+        <!-- Кнопки навигации -->
+        <a href=?chat={{chatID}}&page={{nextpage}} class="btn nav-btn {{nextIsdisabled}}">Вперед ›</a>
+    </div>
 
 
 
