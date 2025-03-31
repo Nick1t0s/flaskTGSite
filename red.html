@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Refresh" content="0; http://45.90.35.197">
+    <title>1 Секунда</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        h1 {
+            font-family: 'Russo One', sans-serif;
+            font-size: 8vw;
+            background: linear-gradient(45deg, #00ff87, #60efff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(96, 239, 255, 0.5);
+            animation: glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 30px rgba(96, 239, 255, 0.5),
+                            0 0 60px rgba(0, 255, 135, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 50px rgba(96, 239, 255, 0.8),
+                            0 0 80px rgba(0, 255, 135, 0.5);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotateX(0deg) rotateY(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(5deg) rotateY(5deg);
+            }
+        }
+
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            background: #fff;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: sparkle 1s ease-out infinite;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>1 СЕКУНДУ</h1>
+        <div class="sparkles">
+            <!-- Здесь можно добавить JavaScript для генерации искр -->
+        </div>
+    </div>
+
+    <script>
+        // Добавляем случайные искры
+        function createSparkles() {
+            const container = document.querySelector('.sparkles');
+            for(let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 1 + 's';
+                container.appendChild(sparkle);
+            }
+        }
+        createSparkles();
+    </script>
+</body>
+</html>
